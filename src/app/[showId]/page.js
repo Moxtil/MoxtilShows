@@ -2,7 +2,6 @@ import { React } from "react";
 import "boxicons/css/boxicons.min.css";
 import Link from "next/link";
 export default async function page({ params }) {
-  // const { showId } = React.use(params);
   const getData = async () => {
     const req = await fetch(`https://api.tvmaze.com/shows/${params.showId}`);
     if (!req.ok) {
@@ -12,7 +11,10 @@ export default async function page({ params }) {
     return req.json();
   };
 
+  //
   const show = await getData();
+  //
+
   return (
     <>
       <Link href={"/"}>

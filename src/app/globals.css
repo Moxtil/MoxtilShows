@@ -215,9 +215,8 @@ body {
 }
 
 .loader {
-  /* transform: translateY(50px); */
-  margin: 50px auto;
-  width: 50px;
+  margin: 300px auto;
+  width: 75px;
   aspect-ratio: 1;
   border-radius: 50%;
   background: radial-gradient(farthest-side, #ffa516 94%, #0000) top/8px 8px

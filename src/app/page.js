@@ -4,8 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 export default function page() {
   const [showName, setShowName] = useState("");
+  const [loader, setLoader] = useState(false);
   const [shows, setShows] = useState([]);
-  const [noResult, setNoResult] = useState(false);
 
   const types = [
     "Comedy",
@@ -24,34 +24,23 @@ export default function page() {
   const randomMovie = Math.floor(Math.random() * types.length);
 
   useEffect(() => {
-    setShowName(searchInput.current.value);
-    if (showName == "") {
-      // setNoResult(true);
-      setShowName(randomMovie);
-    } else {
-      setNoResult(false);
-      setShowName(randomMovie);
-    }
+    setShowName(randomMovie);
   }, []);
+
   useEffect(() => {
-    const getData = async () => {
-      const req = await fetch(
-        `https://api.tvmaze.com/search/shows?q=${showName}`
-      );
-      const result = await req.json();
-      if (result.length < 1 && showName != "") {
-        setNoResult(true);
-      } else {
-        setNoResult(false);
-      }
-      setShows(result);
-    };
-    getData();
-  }, [shows]);
+    setLoader(true);
+    fetch(`https://api.tvmaze.com/search/shows?q=${showName}`)
+      .then((response) => response.json())
+      .then((data) => setShows(data))
+      .then(() => setLoader(false))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, [showName]);
   const searchInput = useRef();
 
   return (
     <div className="main-container">
+      {loader && <div className="loader"></div>}
+
       <div className="heading">
         <h1>Search For A Movie / TV Show</h1>
         <div className="search-bar">
@@ -59,9 +48,6 @@ export default function page() {
             type="search"
             placeholder="Movie / TV Show Name . . ."
             ref={searchInput}
-            onChange={(e) => {
-              setShowName(e.currentTarget.value);
-            }}
           />
           <button
             onClick={() => {
@@ -176,7 +162,6 @@ export default function page() {
               );
             })}
         </div>
-        {noResult && <h1 style={{ color: "gold" }}>No Shows Available ! </h1>}
       </div>
     </div>
   );
