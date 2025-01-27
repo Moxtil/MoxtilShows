@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 export default function page() {
@@ -39,8 +39,6 @@ export default function page() {
 
   return (
     <div className="main-container">
-      {loader && <div className="loader"></div>}
-
       <div className="heading">
         <h1>Search For A Movie / TV Show</h1>
         <div className="search-bar">
@@ -147,21 +145,24 @@ export default function page() {
         </div>
       </div>
       <div className="shows-container">
-        <div className="shows">
-          {shows &&
-            shows.map((show) => {
-              return (
-                <Link key={show.show.id} href={`/${show.show.id}`}>
-                  <div className="show-card">
-                    <img
-                      src={show?.show?.image?.original}
-                      alt={show?.show?.name}
-                    />
-                  </div>
-                </Link>
-              );
-            })}
-        </div>
+        {loader && <div className="loader"></div>}
+        <Suspense fallback={<div className="loader"></div>}>
+          <div className="shows">
+            {shows &&
+              shows.map((show) => {
+                return (
+                  <Link key={show.show.id} href={`/${show.show.id}`}>
+                    <div className="show-card">
+                      <img
+                        src={show?.show?.image?.original}
+                        alt={show?.show?.name}
+                      />
+                    </div>
+                  </Link>
+                );
+              })}
+          </div>
+        </Suspense>
       </div>
     </div>
   );

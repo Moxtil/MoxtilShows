@@ -59,8 +59,9 @@ body {
   margin-block: 15px;
 }
 .main-container .heading > h1 {
-  font-size: 40px;
+  font-size: 35px;
   color: gold;
+  text-align: center;
 }
 .main-container .heading .search-bar {
   display: flex;
@@ -69,8 +70,9 @@ body {
   gap: 10px;
 }
 .main-container .heading .search-bar > input {
-  min-width: 200px;
-  width: 300px;
+  min-width: 250px;
+  max-width: 350px;
+  width: 100%;
   padding: 7px;
   border: none;
   background: gold;
